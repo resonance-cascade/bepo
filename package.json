@@ -1,0 +1,24 @@
+{
+  "name": "bepo",
+  "version": "1.0.0",
+  "description": "Functions for publishing content to a git backed blog.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bcomnes/bepo.git"
+  },
+  "keywords": [
+    "git",
+    "blog",
+    "repo"
+  ],
+  "author": "Bret Comnes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bcomnes/bepo/issues"
+  },
+  "homepage": "https://github.com/bcomnes/bepo"
+}
