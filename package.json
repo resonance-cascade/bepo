@@ -4,7 +4,11 @@
   "description": "Functions for publishing content to a git backed blog.",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "tape": "tape test.js",
+    "test": "npm run tape | tap-spec",
+    "cover": "istanbul cover tape test.js | tap-spec",
+    "submitCover": "cat coverage/lcov.info | codeclimate",
+    "travis": "npm run cover && npm run submitCover"
   },
   "repository": {
     "type": "git",
@@ -15,10 +19,17 @@
     "blog",
     "repo"
   ],
-  "author": "Bret Comnes",
+  "author": {
+    "name": "Bret Comnes",
+    "url": "http://bret.io",
+    "email": "bcomnes@gmail.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bcomnes/bepo/issues"
   },
-  "homepage": "https://github.com/bcomnes/bepo"
+  "homepage": "https://github.com/bcomnes/bepo",
+  "dependencies": {
+    "quick-gits": "^1.0.4"
+  }
 }
