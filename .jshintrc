@@ -3,5 +3,5 @@
    "jquery": true,
    "strict": false,
    "globalstrict": false,
-   "asi": false
+   "asi": true
 }
