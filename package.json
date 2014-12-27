@@ -6,7 +6,7 @@
   "scripts": {
     "tape": "tape test/*.js",
     "test": "npm run tape | tap-spec",
-    "cover": "istanbul cover tape test.js | tap-spec",
+    "cover": "istanbul cover tape test/*.js | tap-spec",
     "submitCover": "cat coverage/lcov.info | codeclimate",
     "travis": "npm run cover && npm run submitCover"
   },
