@@ -31,23 +31,29 @@ function repo(obj) {
   }
   self.pull = pull;
 
+  function config(options, cb) {
+    var configStr = ['config'].concat(options || []);
+    git(configStr, cb);
+  }
+  self.config = config;
+
   function setUser(cb) {
-    git(['config', 'user.name', obj.name || 'bepo user'], cb)
+    config(['user.name', obj.name || 'bepo user'], cb);
   }
   self.setUser = setUser;
 
   function setEmail(cb) {
-    git(['config', 'user.email', obj.email], cb)
+    config(['user.email', obj.email], cb)
   }
   self.setEmail = setEmail;
 
-  function config(cb) {
+  function configure(cb) {
     series([
       setUser,
       setEmail
     ], cb)
   }
-  self.config = config;
+  self.configure = configure;
 
   function add(files, cb) {
     var addFiles = ['add'].concat(files || ['-A'])
@@ -68,11 +74,12 @@ function repo(obj) {
   function publish(cb) {
     series([
       pull,
-      add,
+      add.bind(self, ['-A']),
       commit.bind(self, "'bebo made a commit'"),
       push
     ], cb)
   }
+  self.publish = publish;
 
   return self;
 }

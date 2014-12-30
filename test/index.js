@@ -52,6 +52,7 @@ test("create remote test repoA", function(t) {
   t.plan(1);
   repoA.init(function(err, stdout, stderr) {
     t.error(err, 'Initialize Repo A');
+    repoA(['configure'])
   })
 })
 
@@ -76,17 +77,111 @@ test(".setEmail", function(t) {
   });
 });
 
-test(".config", function(t) {
-  t.plan(2);
-  repoA.config(function(err) {
-    t.error(err, 'should run all config functions on A')
+test(".configure", function(t) {
+  t.plan(3);
+  repoA.configure(function(err) {
+    t.error(err, 'should run all configure functions on A')
+    repoA.config(['receive.denyCurrentBranch', 'ignore'], function(err) {
+      t.error(err, 'repoA will accept pushes now');
+    });
   })
-  repoB.config(function(err) {
-    t.error(err, 'should run all config functions on B')
+  repoB.configure(function(err) {
+    t.error(err, 'should run all configure functions on B')
+  })
+})
+
+var newFile1 = path.join(treeA, 'hi.txt');
+var newFile1Content = 'Hi this is the first file to commit'
+
+test("create test content in A", function(t) {
+  t.plan(1);
+  fs.writeFile(newFile1, newFile1Content, function(err) {
+    t.error(err, 'File should be created without error');
+  })
+})
+
+test("Specifically stage newFile1 into repoA", function(t) {
+  t.plan(1);
+  repoA.add(newFile1, function(err, stdout, stderr) {
+    t.error(err, 'newFile1 added to index')
+    //console.log(stdout);
+    //console.log(stderr);
+  })
+})
+
+test("Commit newFile1 to repoA", function(t) {
+  t.plan(1);
+  repoA.commit('Added hello.txt', function(err, stdout, stderr) {
+    t.error(err, 'hello.txt added')
+    //console.log(stdout);
+    //console.log(stderr);
   })
 })
 
 
+var newFile1Clone = path.join(treeB, path.basename(newFile1));
+test("Pull repoA to repoB", function(t) {
+  t.plan(2);
+  repoB.pull(function(err, stdout, stderr) {
+
+    t.error(err, 'RepoB pulled RepoA')
+
+    //console.log(stdout);
+    //console.log(stderr);
+
+    fs.readFile(newFile1Clone, {
+      encoding: 'utf8'
+    }, function(err, data) {
+      t.equal(data, newFile1Content, 'repoB is a clone of repoA');
+    })
+  })
+})
+
+var newFile2 = path.join(treeB, 'second.txt');
+var newFile2Content = 'This content will be pused to repoA'
+
+
+var newFile2Clone = path.join(treeA, path.basename(newFile2));
+test("Manual push of repoB to repoA", function(t) {
+  t.plan(6);
+  fs.writeFile(newFile2, newFile2Content, function(err) {
+    t.error(err, 'File should be created without error');
+
+    repoB.add(newFile2, function(err, stdout, stderr) {
+      t.error(err, 'newFile2 added to indexB')
+
+      repoB.commit('Add second.txt to repoB', function(err, stdout, stderr) {
+        t.error(err, 'second.txt added to repoB')
+
+        repoB.push(function(err, stdout, stderr) {
+          t.error(err, 'Sucessful push from repoB to repoA');
+
+          repoA(['reset', '--hard'], function(err) {
+            t.error(err, 'RepoA performed hard reset');
+            fs.readFile(newFile2Clone, {
+              encoding: 'utf8'
+            }, function(err, data) {
+              t.equal(data, newFile2Content, 'repoA received repoB push');
+            })
+          })
+        })
+      })
+    })
+  })
+})
+
+var newFile3 = path.join(treeB, 'third.txt');
+var newFile3Content = 'This should be a bit easier?'
+
+test('.publish', function(t) {
+  t.plan(2);
+  fs.writeFile(newFile3, newFile3Content, function(err) {
+    t.error(err, 'File should be created without error');
+    repoB.publish(function(err, stdout, stderr) {
+      t.error(err, 'publishing chain worked!');
+    })
+  })
+})
 
 test("clean up", function(t) {
   t.plan(1);
