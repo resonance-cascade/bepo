@@ -1,6 +1,6 @@
 {
   "name": "bepo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Functions for publishing content to a git backed blog.",
   "main": "index.js",
   "scripts": {
