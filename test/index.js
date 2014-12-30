@@ -76,10 +76,13 @@ test(".setEmail", function(t) {
   });
 });
 
-test.skip(".config", function(t) {
-  t.plan(1);
+test(".config", function(t) {
+  t.plan(2);
+  repoA.config(function(err) {
+    t.error(err, 'should run all config functions on A')
+  })
   repoB.config(function(err) {
-    t.error(err, 'should run all config functions')
+    t.error(err, 'should run all config functions on B')
   })
 })
 

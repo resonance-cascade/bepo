@@ -41,11 +41,38 @@ function repo(obj) {
   }
   self.setEmail = setEmail;
 
+  function config(cb) {
+    series([
+      setUser,
+      setEmail
+    ], cb)
+  }
+  self.config = config;
+
   function add(files, cb) {
     var addFiles = ['add'].concat(files || ['-A'])
     git(addFiles, cb);
   }
   self.add = add;
+
+  function commit(msg, cb) {
+    git(['commit', '-m', msg], cb)
+  }
+  self.commit = commit;
+
+  function push(cb) {
+    git(['push', 'origin', 'master'], cb)
+  }
+  self.push = push;
+
+  function publish(cb) {
+    series([
+      pull,
+      add,
+      commit.bind(self, "'bebo made a commit'"),
+      push
+    ], cb)
+  }
 
   return self;
 }
