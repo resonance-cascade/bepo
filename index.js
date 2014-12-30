@@ -2,7 +2,6 @@
 
 var url = require('url');
 var fs = require('fs');
-var debug = require('debug')('lib:bepo');
 var series = require('array-series');
 var gits = require('quick-gits');
 
