@@ -9,23 +9,23 @@ var repoName = 'testRepo';
 var temp = path.join(__dirname, 'tmp')
 var a = path.join(temp, 'a')
 var b = path.join(temp, 'b')
-var aTree = path.join(a, repoName)
-var bTree = path.join(b, repoName)
+var treeA = path.join(a, repoName)
+var treeB = path.join(b, repoName)
 
 var repoA, repoB;
 
-var aSettings = {
-  worktree: aTree,
+var settingsA = {
+  worktree: treeA,
   email: 'bcomnes@gmail',
   name: 'Bret Comnes',
-  repo: bTree
+  remote: treeB
 }
 
-var bSettings = {
-  worktree: bTree,
+var settingsB = {
+  worktree: treeB,
   email: 'bcomnes@gmail',
   name: 'Bret Comnes',
-  repo: aTree
+  remote: treeA
 }
 
 test("ensure clean directory", function(t) {
@@ -40,54 +40,45 @@ test("ensure clean directory", function(t) {
   }
 })
 
-test("create tmp folders", function(t) {
-  t.plan(2);
-  mkdirp(a, function(err) {
-    t.error(err, 'a dir created');
-    mkdirp(b, function(err) {
-      t.error(err, 'b dir created');
-    })
+test("create bepo object", function(t) {
+  repoA = bepo(settingsA);
+  t.pass("Bepo a created!");
+  repoB = bepo(settingsB);
+  t.pass("Bepo b created!");
+  t.end();
+})
+
+test("create remote test repoA", function(t) {
+  t.plan(1);
+  repoA.init(function(err, stdout, stderr) {
+    t.error(err, 'Initialize Repo A');
   })
 })
 
-test.skip("create remote test repoA", function(t) {
+test(".clone", function(t) {
   t.plan(1);
-  cp.exec('git init ' + aTree, function(err, stdout, stderr) {
-    t.error(err, 'initialzed test repo');
-    aRepo = new Repo(aSettings)
-  })
-})
-
-test.skip("create repo object", function(t) {
-  t.plan(1);
-  bRepo = new Repo(bSettings);
-  t.pass('repo object created')
-})
-
-test.skip(".clone", function(t) {
-  t.plan(1);
-  bRepo.clone(function(err) {
+  repoB.clone(function(err, stdout, stderr) {
     t.error(err, 'should be cloned now')
   })
 })
 
-test.skip(".setUser", function(t) {
+test(".setUser", function(t) {
   t.plan(1);
-  bRepo.setUser(function(err) {
+  repoB.setUser(function(err) {
     t.error(err, 'user should be set now')
   });
 });
 
-test.skip(".setEmail", function(t) {
+test(".setEmail", function(t) {
   t.plan(1);
-  bRepo.setEmail(function(err) {
+  repoB.setEmail(function(err) {
     t.error(err, 'user should be set now')
   });
 });
 
 test.skip(".config", function(t) {
   t.plan(1);
-  bRepo.config(function(err) {
+  repoB.config(function(err) {
     t.error(err, 'should run all config functions')
   })
 })

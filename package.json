@@ -8,7 +8,8 @@
     "test": "npm run tape | tap-spec",
     "cover": "istanbul cover tape test/*.js | tap-spec",
     "submitCover": "cat coverage/lcov.info | codeclimate",
-    "travis": "npm run cover && npm run submitCover"
+    "travis": "npm run cover && npm run submitCover",
+    "dev": "nodemon -i coverage --exec 'npm run cover --silent'"
   },
   "repository": {
     "type": "git",
@@ -35,10 +36,10 @@
     "quick-gits": "^1.0.4"
   },
   "devDependencies": {
-    "codeclimate-test-reporter": "0.0.4",
-    "debug": "^2.1.0",
+    "codeclimate-test-reporter": "^0.0.4",
     "istanbul": "^0.3.5",
     "mkdirp": "^0.5.0",
+    "nodemon": "^1.2.1",
     "rimraf": "^2.2.8",
     "tap-spec": "^2.1.2",
     "tape": "^3.0.3"
