@@ -9,7 +9,8 @@
     "cover": "istanbul cover tape test/*.js | tap-spec",
     "submitCover": "cat coverage/lcov.info | codeclimate",
     "travis": "npm run cover && npm run submitCover",
-    "dev": "nodemon -i coverage --exec 'npm run cover --silent'"
+    "dev": "nodemon -i coverage --exec 'npm run cover --silent'",
+    "tester": "nodemon -i coverage --exec 'npm --silent run cover'"
   },
   "repository": {
     "type": "git",

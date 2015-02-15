@@ -9,8 +9,10 @@ var repoName = 'testRepo';
 var temp = path.join(__dirname, 'tmp')
 var a = path.join(temp, 'a')
 var b = path.join(temp, 'b')
+var c = path.join(temp, 'c')
 var treeA = path.join(a, repoName)
 var treeB = path.join(b, repoName)
+var treeC = path.join(c, repoName)
 
 var repoA, repoB;
 
@@ -26,6 +28,12 @@ var settingsB = {
   email: 'bcomnes@gmail',
   name: 'Bret Comnes',
   remote: treeA
+}
+
+var settingsC = {
+  worktree: treeC,
+  email: 'bcomnes@gmail',
+  name: 'Bret Comnes'
 }
 
 test("ensure clean directory", function(t) {
@@ -45,6 +53,8 @@ test("create bepo object", function(t) {
   t.pass("Bepo a created!");
   repoB = bepo(settingsB);
   t.pass("Bepo b created!");
+  repoC = bepo(settingsC);
+  t.pass("Bepo C created! (no remote)");
   t.end();
 })
 
@@ -180,6 +190,14 @@ test('.publish', function(t) {
     repoB.publish(function(err, stdout, stderr) {
       t.error(err, 'publishing chain worked!');
     })
+  })
+})
+
+test('.clone on remoteless Repo', function(t) {
+  repoC.clone(function(err, stdout, stderr) {
+    t.plan(2)
+    t.ok(err.constructor === Error, "should return an error")
+    t.equal(err.message, "No remote specified", "Correct error message")
   })
 })
 
