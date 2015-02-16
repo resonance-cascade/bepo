@@ -6,7 +6,7 @@
   "scripts": {
     "tape": "tape test/*.js",
     "tap-spec": "tape test/*.js | tap-spec",
-    "test": "istanbul cover tape test/*.js | tap-spec && standard",
+    "test": "istanbul cover tape test/*.js | tap-spec",
     "standard": "standard --verbose",
     "submitCover": "cat coverage/lcov.info | codeclimate",
     "travis": "npm test && npm run submitCover",
@@ -45,5 +45,12 @@
     "standard": "^2.6.2",
     "tap-spec": "^2.1.2",
     "tape": "^3.0.3"
+  },
+  "jshintConfig": {
+    "node": true,
+    "jquery": false,
+    "strict": false,
+    "globalstrict": false,
+    "asi": true
   }
 }
