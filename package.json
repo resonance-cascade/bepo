@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "tape": "tape test/*.js",
-    "test": "npm run tape | tap-spec",
+    "test": "npm run tape | tap-spec && standard",
+    "standard": "standard --verbose",
     "cover": "istanbul cover tape test/*.js | tap-spec",
     "submitCover": "cat coverage/lcov.info | codeclimate",
     "travis": "npm run cover && npm run submitCover",
