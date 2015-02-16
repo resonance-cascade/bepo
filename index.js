@@ -20,7 +20,7 @@ function repo(obj) {
       gitClone.bind(self, obj.remote)(cb)
     } else {
       cb(new Error("No remote specified"));
-    } // TODO new Error then cb(err);
+    }
   }
   self.clone = clone;
 
