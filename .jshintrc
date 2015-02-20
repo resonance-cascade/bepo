@@ -1,7 +1,0 @@
-{
-   "node": true,
-   "jquery": true,
-   "strict": false,
-   "globalstrict": false,
-   "asi": true
-}

@@ -139,9 +139,9 @@ test('Pull repoA to repoB', function(t) {
     fs.readFile(newFile1Clone, {
       encoding: 'utf8'
     }, function(err, data) {
-      t.error(err, 'Should be error free')
-      t.equal(data, newFile1Content, 'repoB is a clone of repoA')
-    })
+        t.error(err, 'Should be error free')
+        t.equal(data, newFile1Content, 'repoB is a clone of repoA')
+      })
   })
 })
 
@@ -168,9 +168,9 @@ test('Manual push of repoB to repoA', function(t) {
             fs.readFile(newFile2Clone, {
               encoding: 'utf8'
             }, function(err, data) {
-              t.error(err, 'error free')
-              t.equal(data, newFile2Content, 'repoA received repoB push')
-            })
+                t.error(err, 'error free')
+                t.equal(data, newFile2Content, 'repoA received repoB push')
+              })
           })
         })
       })
