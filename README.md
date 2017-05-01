@@ -1,3 +1,5 @@
+DEPRECIATED PROJECT
+
 bepo
 ====
 
